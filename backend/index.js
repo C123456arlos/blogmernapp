@@ -26,7 +26,7 @@ const app = express()
 
 app.use(
     cors({
-        origin: 'http://localhost:5173',
+        origin: ['http://localhost:5173', 'https://blogmernapp-x55w.onrender.com'],
         credentials: true,
     })
 )
