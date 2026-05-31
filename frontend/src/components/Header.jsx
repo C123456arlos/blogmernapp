@@ -7,17 +7,32 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { useSelector } from 'react-redux'
-
-
+import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-
+import { toggleTheme } from '../redux/theme/themeSlice'
+import { signoutSuccess } from '../redux/user/userSlice';
 
 
 export default function Header() {
     const path = useLocation().pathname
     const { currentUser } = useSelector(state => state.user)
-
-    console.log(currentUser)
+    const dispatch = useDispatch()
+    const { theme } = useSelector((state) => state.theme)
+    const handleSignOut = async () => {
+        try {
+            const res = await fetch('/api/user/signout', {
+                method: 'POST'
+            })
+            const data = await res.json()
+            if (!res.ok) {
+                console.log(data.message)
+            } else {
+                dispatch(signoutSuccess())
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
     return (
         <Navbar className='border-b-2'>
             <Link to='/' className='self-center whitespace-nowrap sm:text-xl font-semibold dark:text-white'>blog <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple to-pink-500 rounded-lg text-white'>mern</span></Link>
@@ -29,8 +44,9 @@ export default function Header() {
                 <AiOutlineSearch></AiOutlineSearch>
             </Button>
             <div className='flex gap-2 md:order-2'>
-                <Button className='w-12 h-10 hidden sm:inline' color={'gray'} pill>
-                    <FaMoon></FaMoon>
+                <Button className='w-12 h-10 hidden sm:inline' color={'gray'} pill onClick={() => dispatch(toggleTheme())}>
+
+                    {theme === 'light' ? <FaSun></FaSun> : <FaMoon></FaMoon>}
                 </Button>
                 {currentUser ? (
                     <Dropdown arroIcon={false} inline label={
@@ -44,7 +60,7 @@ export default function Header() {
                             <DropdownItem>profile</DropdownItem>
                         </Link>
                         <DropdownDivider></DropdownDivider>
-                        <DropdownItem>sign out</DropdownItem>
+                        <DropdownItem onClick={handleSignOut}>sign out</DropdownItem>
                     </Dropdown>
                 ) : (
 

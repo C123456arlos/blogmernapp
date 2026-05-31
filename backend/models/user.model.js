@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
     profilePicture: {
         type: String,
         default: 'https://www.perfocal.com/blog/content/images/size/w960/2021/01/Perfocal_17-11-2019_TYWFAQ_100_standard-3.jpg'
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true })
 const User = mongoose.model('User', userSchema)
