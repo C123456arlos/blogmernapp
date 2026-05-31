@@ -47,7 +47,7 @@ export default function DashComments() {
         const fetchComments = async () => {
             try {
                 const res = await fetch(
-                    'http://localhost:3000/api/comment/getcomments',
+                    `${process.env.NEXT_PUBLIC_API_URL}/api/comment/getcomments`,
                     {
                         credentials: 'include',
                     }
@@ -71,7 +71,7 @@ export default function DashComments() {
         const startIndex = comments.length;
         try {
             const res = await fetch(
-                `http://localhost:3000/api/comment/getcomments?startIndex=${startIndex}`,
+                `${process.env.NEXT_PUBLIC_API_URL}/api/comment/getcomments?startIndex=${startIndex}`,
                 {
                     credentials: 'include',
                 }
@@ -113,7 +113,7 @@ export default function DashComments() {
         setShowModal(false);
         try {
             const res = await fetch(
-                `http://localhost:3000/api/comment/deleteComment/${commentIdToDelete}`,
+                `${process.env.NEXT_PUBLIC_API_URL}/api/comment/deleteComment/${commentIdToDelete}`,
                 {
                     method: 'DELETE',
                     credentials: 'include',
