@@ -78,6 +78,7 @@ export default function CommentSection({ postId }) {
     const [showModal, setShowModal] = useState(false)
     const [commentToDelete, setCommentToDelete] = useState(null)
     const handleSubmit = async (e) => {
+        console.log('COMMENT COMPONENT LOADED');
         e.preventDefault()
 
 
@@ -88,6 +89,7 @@ export default function CommentSection({ postId }) {
             return
         }
         try {
+            console.log('VITE_API_URL:', import.meta.env.VITE_API_URL);
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/create`, {
                 method: 'POST',
                 headers: {
@@ -109,6 +111,7 @@ export default function CommentSection({ postId }) {
     useEffect(() => {
         const getComments = async () => {
             try {
+                console.log('VITE_API_URL:', import.meta.env.VITE_API_URL);
                 const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/getPostComments/${postId}`)
                 if (res.ok) {
                     const data = await res.json()
@@ -155,6 +158,7 @@ export default function CommentSection({ postId }) {
                 navigate('/sign-in');
                 return;
             }
+            console.log('VITE_API_URL:', import.meta.env.VITE_API_URL);
             const res = await fetch(
                 `
                 ${import.meta.env.VITE_API_URL}/api/comment/likeComment/${commentId}`,
@@ -195,6 +199,7 @@ export default function CommentSection({ postId }) {
                 navigate('/sign-in')
                 return
             }
+            console.log('VITE_API_URL:', import.meta.env.VITE_API_URL);
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/deleteComment/${commentId}`, {
                 method: "DELETE"
             })

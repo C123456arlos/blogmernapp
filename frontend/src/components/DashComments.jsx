@@ -71,7 +71,7 @@ export default function DashComments() {
         const startIndex = comments.length;
         try {
             const res = await fetch(
-                `/api/comment/getcomments?startIndex=${startIndex}`,
+                `${import.meta.env.VITE_API_URL}/api/comment/getcomments?startIndex=${startIndex}`,
                 {
                     credentials: 'include',
                 }
@@ -113,7 +113,7 @@ export default function DashComments() {
         setShowModal(false);
         try {
             const res = await fetch(
-                `/api/comment/deleteComment/${commentIdToDelete}`,
+                `${import.meta.env.VITE_API_URL}/api/comment/deleteComment/${commentIdToDelete}`,
                 {
                     method: 'DELETE',
                     credentials: 'include',
