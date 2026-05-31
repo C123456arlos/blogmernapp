@@ -12,12 +12,23 @@ import { useEffect, useState } from 'react';
 import { toggleTheme } from '../redux/theme/themeSlice'
 import { signoutSuccess } from '../redux/user/userSlice';
 
-
 export default function Header() {
     const path = useLocation().pathname
+    const location = useLocation()
+    const navigate = useNavigate()
     const { currentUser } = useSelector(state => state.user)
     const dispatch = useDispatch()
+    const [searchTerm, setSearchTerm] = useState('')
     const { theme } = useSelector((state) => state.theme)
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(location.search)
+        const searchTermFromUrl = urlParams.get('searchTerm')
+        if (searchTermFromUrl) {
+            setSearchTerm(searchTermFromUrl)
+        }
+    },
+        [location.search])
     const handleSignOut = async () => {
         try {
             const res = await fetch('/api/user/signout', {
@@ -33,12 +44,21 @@ export default function Header() {
             console.log(error.message)
         }
     }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const urlParams = new URLSearchParams(location.search)
+        urlParams.set('searchTerm', searchTerm)
+        const searchQuery = urlParams.toString()
+        navigate(`/search?${searchQuery}`)
+
+    }
     return (
         <Navbar className='border-b-2'>
             <Link to='/' className='self-center whitespace-nowrap sm:text-xl font-semibold dark:text-white'>blog <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple to-pink-500 rounded-lg text-white'>mern</span></Link>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <TextInput type='text' placeholder='search'
-                    rightIcon={AiOutlineSearch} className='hidden lg:inline'></TextInput>
+                    rightIcon={AiOutlineSearch} className='hidden lg:inline' value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}></TextInput>
             </form>
             <Button className='w-12 h-10 lg:hidden' pill color={'gray'}>
                 <AiOutlineSearch></AiOutlineSearch>
