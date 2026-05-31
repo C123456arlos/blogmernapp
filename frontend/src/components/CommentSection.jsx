@@ -354,7 +354,7 @@ export default function CommentSection({ postId }) {
         }
         try {
             const res = await fetch(
-                `${import.meta.env.VITE_BACKEND_URL}/api/comment/create`,
+                '/api/comment/create',
                 {
                     method: 'POST',
                     credentials: 'include',
@@ -383,8 +383,7 @@ export default function CommentSection({ postId }) {
         const getComments = async () => {
             try {
                 const res = await fetch(
-                    `${import.meta.env.VITE_BACKEND_URL
-                    }/api/comment/getPostComments/${postId}`
+                    `/api/comment/getPostComments/${postId}`
                 );
                 if (res.ok) {
                     const data = await res.json();
@@ -404,8 +403,7 @@ export default function CommentSection({ postId }) {
                 return;
             }
             const res = await fetch(
-                `${import.meta.env.VITE_BACKEND_URL
-                }/api/comment/likeComment/${commentId}`,
+                `/api/comment/likeComment/${commentId}`,
                 {
                     method: 'PUT',
                     credentials: 'include',
@@ -446,8 +444,7 @@ export default function CommentSection({ postId }) {
                 return;
             }
             const res = await fetch(
-                `${import.meta.env.VITE_BACKEND_URL
-                }/api/comment/deleteComment/${commentId}`,
+                `/api/comment/deleteComment/${commentId}`,
                 {
                     method: 'DELETE',
                     credentials: 'include',
